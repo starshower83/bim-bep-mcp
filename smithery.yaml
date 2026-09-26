@@ -1,0 +1,7 @@
+# Smithery.ai registry configuration — remote Streamable HTTP MCP server (bring your own hosting)
+startCommand:
+  type: url
+  url: https://api.starshower83.cn:7443/mcp
+configSchema:
+  type: object
+  properties: {}
