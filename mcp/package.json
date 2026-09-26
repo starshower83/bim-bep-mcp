@@ -1,0 +1,20 @@
+{
+  "name": "@starshower/bim-bep-mcp",
+  "version": "1.0.0",
+  "description": "MCP server exposing the BIM/ISO 19650 BEP generator as a pay-per-call (402) tool. Agents discover it, get 402 + Alipay bill, pay via Alipay AI付 Skill, and receive the BEP.",
+  "type": "module",
+  "bin": {
+    "bim-bep-mcp": "./server_http.js"
+  },
+  "main": "server_http.js",
+  "scripts": {
+    "start": "node server_http.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "express": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
