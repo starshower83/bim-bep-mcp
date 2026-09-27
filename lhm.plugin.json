@@ -1,0 +1,181 @@
+{
+  "identifier": "starshower-bim-bep-mcp",
+  "name": "BIM/ISO 19650 Document Generator (402 pay-per-call)",
+  "version": "1.1.0",
+  "author": "starshower83",
+  "authorUrl": "https://github.com/starshower83",
+  "description": "Pay-per-call MCP server that generates ISO 19650 construction documents (BEP/EIR/OIR) for AI agents. Agents call a tool, receive an HTTP 402 Alipay bill, pay via the official Alipay AI付 Skill, and get the document back — a working example of machine-to-machine payments over MCP.",
+  "homepage": "https://github.com/starshower83/bim-bep-mcp",
+  "cloudEndpoint": "https://api.starshower83.cn:7443/mcp",
+  "icon": "🏗️",
+  "tags": [
+    "bim",
+    "iso-19650",
+    "construction",
+    "payment",
+    "402",
+    "alipay",
+    "document-generation"
+  ],
+  "tools": [
+    {
+      "name": "get_pricing",
+      "description": "查看 BIM/ISO 19650 文档生成服务的定价与能力（免费，不扣费）。调用付费工具前先用它了解价格。",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {}
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "generate_bep",
+      "description": "生成 BIM/ISO 19650 BEP 执行计划（付费 ¥2/次）。首次返回 402 账单；用支付宝 AI付 Skill 付款后带 payment_proof 再调一次即返回 BEP。",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "项目名称（必填）"
+          },
+          "client": {
+            "description": "业主/发起组织名称",
+            "type": "string"
+          },
+          "location": {
+            "description": "项目地点",
+            "type": "string"
+          },
+          "project_type": {
+            "description": "项目类型，如 Commercial building / Pharmaceutical plant",
+            "type": "string"
+          },
+          "lod": {
+            "description": "目标 LOD/LOI，默认 LOD 300",
+            "type": "string"
+          },
+          "cde": {
+            "description": "CDE 平台，默认 Autodesk Construction Cloud",
+            "type": "string"
+          },
+          "payment_proof": {
+            "description": "（付款后传入）Base64URL 编码的 Payment-Proof JSON，含 protocol.payment_proof/trade_no + method.client_session",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ]
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "generate_eir",
+      "description": "生成 ISO 19650-2 EIR 业主信息需求（付费 ¥3/次）。含 LOIN 分级、数据标准、命名规则、CDE 要求与验收准则。首次返回 402 账单；付款后带 payment_proof 再调一次即返回 EIR。",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "项目名称（必填）"
+          },
+          "client": {
+            "description": "业主/发起组织名称",
+            "type": "string"
+          },
+          "location": {
+            "description": "项目地点",
+            "type": "string"
+          },
+          "project_type": {
+            "description": "项目类型",
+            "type": "string"
+          },
+          "lod": {
+            "description": "目标 LOD/LOI",
+            "type": "string"
+          },
+          "classification": {
+            "description": "分类标准，默认 Uniclass 2015",
+            "type": "string"
+          },
+          "cde": {
+            "description": "CDE 平台",
+            "type": "string"
+          },
+          "payment_proof": {
+            "description": "（付款后传入）Base64URL 编码的 Payment-Proof JSON，含 protocol.payment_proof/trade_no + method.client_session",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ]
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "generate_oir",
+      "description": "生成 ISO 19650-3 OIR 运营期信息需求（付费 ¥3/次）。含 AIM 移交要求、COBie 完整度门槛、FM 系统集成与 POE。首次返回 402 账单；付款后带 payment_proof 再调一次即返回 OIR。",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "项目名称（必填）"
+          },
+          "client": {
+            "description": "业主/发起组织名称",
+            "type": "string"
+          },
+          "location": {
+            "description": "项目地点",
+            "type": "string"
+          },
+          "asset_type": {
+            "description": "资产类型，默认 Commercial building",
+            "type": "string"
+          },
+          "fm_system": {
+            "description": "FM 系统目标，如 Archibus / IBM Maximo",
+            "type": "string"
+          },
+          "payment_proof": {
+            "description": "（付款后传入）Base64URL 编码的 Payment-Proof JSON，含 protocol.payment_proof/trade_no + method.client_session",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ]
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ],
+  "localizations": [
+    {
+      "locale": "zh-CN",
+      "name": "BIM/ISO 19650 文档生成器（按次付费）",
+      "description": "按次付费的 MCP 服务器，为 AI Agent 生成 ISO 19650 建筑信息模型文档（BEP/EIR/OIR）。Agent 调用工具 → 收到 HTTP 402 支付宝账单 → 用官方「支付宝 AI付 Skill」付款 → 拿到文档。MCP 上机器对机器支付的完整实例。",
+      "tags": [
+        "bim",
+        "iso-19650",
+        "建筑信息模型",
+        "按次付费",
+        "402",
+        "支付宝"
+      ]
+    }
+  ]
+}
